@@ -1,0 +1,15 @@
+{
+  "name": "quickdrop",
+  "version": "1.0.0",
+  "description": "Quickly store and re-access files",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "File",
+    "Share"
+  ],
+  "author": "Axtya Darius Barbano",
+  "license": "ISC"
+}
