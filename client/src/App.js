@@ -5,7 +5,6 @@ import DropZone from './components/Drop';
 
 class App extends Component {
 
-
 	render() {
 		return (
 			<div className="App">

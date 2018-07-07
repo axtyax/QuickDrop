@@ -1,15 +1,20 @@
 {
   "name": "quickdrop",
-  "version": "1.0.0",
-  "description": "Quickly store and re-access files",
-  "main": "server.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon app.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
-  "keywords": [
-    "File",
-    "Share"
-  ],
-  "author": "Axtya Darius Barbano",
-  "license": "ISC"
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.17.5"
+  }
 }
