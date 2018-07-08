@@ -65,7 +65,7 @@ class DropZone extends Component {
 	    req.end();*/
 
 		console.log(this.state.UploadId);
-		return fetch(`/${this.state.UploadId}`, {
+		return fetch(`/upload/${this.state.UploadId}`, {
 	        method: 'POST',
 	        body: 'Hello from React!!!'
 	    });
