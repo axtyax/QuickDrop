@@ -19,10 +19,15 @@ app.set('view engine', 'jade');
 app.set('port', 5000);
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+/*app.use(express.json());
+app.use(express.urlencoded({ extended: false }));*/
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser.json())
 
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);

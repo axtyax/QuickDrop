@@ -1,17 +1,27 @@
 var express = require('express');
 var router = express.Router();
 let bodyParser = require('body-parser');
-
-router.use(bodyParser.json());
+var database = require('../db/mongodb.js');
 
 router.get('/', function (req, res) {
-  res.send('GET request to the homepage')
+  res.send('GET request to the upload page')
 })
 
-console.log("ROUTER LOADED");
-router.post('/:UploadId', update);
-function update(req, res) {
-  console.log('updating-', req.params.UploadId);
+/*router.post('/:UploadId', upload);
+function upload(req, res) {
+
+  console.log(`Uploading file at instance ${req.params.UploadId}`);
+  console.log(JSON.stringify(req.body));
+
+  res.sendStatus(200);
+}*/
+
+router.post('/:UploadId/:UploadIndex', upload_index);
+function upload_index(req, res) {
+
+  console.log(`Uploading shard at index ${req.params.UploadIndex}`);
+  console.log(req.body.data.length);
+
   res.sendStatus(200);
 }
 

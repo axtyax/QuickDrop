@@ -7,6 +7,7 @@
 	border-radius: 0.2rem;
 	border: #3884ff 2px solid;
 	display: inline-block;
+	overflow: scroll;
 }
 
 #drop-zone p {
@@ -22,7 +23,7 @@
 	margin-top: 0.1rem;
 	border: black 1px solid;
 	border-radius: 0.5rem;
-	background-color: #becfea;
+	background-color: #ebf2ff;
 	padding: 1rem;
 	display: flex;
 }
@@ -44,4 +45,9 @@
 	color: blue;
 	margin-left: 10%;
 	text-align: right;
+}
+
+#upload-button {
+	color: #3884ff;
+	top: 10rem;
 }
