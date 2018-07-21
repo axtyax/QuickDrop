@@ -75,7 +75,7 @@ exports.saveShard = function (shard_ID,file_ID,shard_dat,shard_index) {
   //console.log(file_manifest);
 }
 
-var lifetime_seconds = 120;
+var lifetime_seconds = 1800;
 updateManifest = function() {
   for (var f in file_manifest) {
     //console.log("file death at " + file_manifest[f].death + " now " + (new Date().getTime()/1000));
