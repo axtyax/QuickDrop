@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //var port = normalizePort(process.env.PORT || '5000');
-app.set('port', 5000);
+app.set('port', 5001);
 
 app.use(logger('dev'));
 /*app.use(express.json());
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser({limit: '2.5mb'}));
+app.use(bodyParser({limit: '10mb'}));
 app.use(bodyParser.json())
 
 app.use('/', indexRouter);
@@ -51,4 +51,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(process.env.PORT || 5000, () => console.log('Example app listening on port 5000!'))
+app.listen(process.env.PORT || 5001, () => console.log('Example app listening on port 5001!'))
