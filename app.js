@@ -8,6 +8,8 @@ var http = require('http');
 
 var indexRouter = require('./routes/index');
 var uploadRouter = require('./routes/upload');
+var fileStore = uploadRouter.fileStore;
+var downloadRouter = require('./routes/download');
 
 var app = express();
 
@@ -26,11 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser({limit: '2.5mb'}));
 app.use(bodyParser.json())
 
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
+app.use('/download', downloadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,4 +51,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(5000, () => console.log('Example app listening on port 5000!'))
+app.listen(process.env.PORT || 5000, () => console.log('Example app listening on port 5000!'))

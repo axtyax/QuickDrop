@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import DropZone from './components/Drop';
+import DropZone from './Drop';
 
 class App extends Component {
 
 	render() {
 		return (
 
-			<div className="App">
+			<div className="Main">
 
 				<link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet" />
 

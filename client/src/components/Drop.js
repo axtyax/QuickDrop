@@ -19,12 +19,16 @@ class DropZone extends Component {
 	constructor(props) {
     	super(props);
     	this.state = {
-		  	UploadId: uuid(),
+		  	UploadId: cuuid(),
 		  	//files: [ {"id": uuid(),"name": "file1", "size": 20}, {"id": uuid(),"name": "file2", "size": 15023000000} ]
+				uploading: false,
+				current_shard: 0,
 				files: []
 			}
      	this.onDrop = this.onDrop.bind(this);
 			this.uploadFiles = this.uploadFiles.bind(this);
+
+			//this.link-box-text = React.createRef();
   	}
 
 	componentDidMount() {
@@ -42,7 +46,7 @@ class DropZone extends Component {
 	}
 
 	addFile(fileObj) {
-		this.state.files.push({ "id": uuid(), "name": fileObj.name, "size": fileObj.size, "object": fileObj })
+		this.state.files.push({ "id": cuuid(), "name": fileObj.name, "size": fileObj.size, "object": fileObj })
 		this.setState ({ files: this.state.files });
 	}
 
@@ -65,32 +69,48 @@ class DropZone extends Component {
 		e.preventDefault();
 	}
 
-	sendFileShard(file_arr,index) {
+	sendFileShard(file,file_arr,index) {
+
+		this.setState({ at_final_shard: false });
 
 		var SHARD_SIZE = 2500000;
-
 		var arr_end = (index+1)*SHARD_SIZE;
-		if(index*SHARD_SIZE >= file_arr.length)
+
+		if(index*SHARD_SIZE >= file_arr.length) {
 			return 0;
+		}
 
 		if((index+1)*SHARD_SIZE >= file_arr.length)
 			arr_end = file_arr.length
 
 		var file_str = ""
 		for (var i = index*SHARD_SIZE; i < arr_end; i++)
-			file_str += String.fromCharCode(file_arr[i]);
+			file_str += String.fromCharCode(file_arr[i]+128);
 
 		console.log(file_str.length);
 
+		var is_first = 0;
+		var is_last = 0;
+
+		if (index == 0) is_first = 1;
+		if (arr_end == file_arr.length) is_last = 1;
+
 		return fetch(`/upload/${this.state.UploadId}/${index}`, {
 			method: 'post',
-			body: JSON.stringify({"data":file_str}),
+			body: JSON.stringify({
+				"data":file_str,
+				"file_id": file.id,
+				"filename": file.name,
+				"is_first": is_first,
+				"is_last": is_last
+			}),
 			headers: {
 				"Content-Type": "application/json"
 			}
-		});
+		}).then(function(response) {
+			this.checkStatus(response);
+		}.bind(this));
 
-		return 1;
 	}
 
 	sendFileObj(file) {
@@ -103,11 +123,12 @@ class DropZone extends Component {
 			var file_arr = new Int8Array(reader.result);
 	  	console.log(file_arr); //this is an ArrayBuffer
 			var i = 0;
-			while (instance.sendFileShard(file_arr,i)) {i++;}
+			while (instance.sendFileShard(file,file_arr,i)) {i++;}
 
-	  }
-		reader.onload.bind(this);
-	  reader.readAsArrayBuffer(file);
+	  }.bind(this,file);
+		//console.log("type " + typeof reader.readAsArrayBuffer(file));
+
+		return reader.readAsArrayBuffer(file.object);
 
 	}
 
@@ -120,13 +141,19 @@ class DropZone extends Component {
 
 	uploadFiles() {
 
-		for(var i = 0; i < this.state.files.length; i++)
-			this.sendFileObj(this.state.files[i].object);
+		for(var i = 0; i < this.state.files.length; i++) {
+			this.sendFileObj(this.state.files[i]);
+		}
+
+		document.getElementById('link-box-text').innerHTML = `${window.location.href}download/${this.state.UploadId}`;
+		document.getElementById('link-box-text').href = `${window.location.href}download/${this.state.UploadId}`;
 
 	}
 
+
 	checkStatus(response) {
 		if (response.status >= 200 && response.status < 300) {
+			this.setState({ last_response: response.status })
 			return response
 		} else {
 			var error = new Error(response.statusText)
@@ -137,7 +164,7 @@ class DropZone extends Component {
 
 	render() {
 		return (
-			<Dropzone className="drop-zone" onDrop={this.onDrop}>
+			<Dropzone className="drop-zone" onDrop={this.onDrop} disableClick={true}>
 
 					<p>Drag-and-drop files here then hit 'Upload'</p>
 
@@ -147,9 +174,15 @@ class DropZone extends Component {
 
 					<button type="button" id="upload-button" onClick={this.uploadFiles}> Upload! </button>
 
+					<div id="link-box"> Download Link: <a id='link-box-text' ref='link-box-text' target="_blank" href=""></a> </div>
+
 			</Dropzone>
     	);
   	}
+}
+
+var cuuid = function() {
+	return uuid().replace(/[0-9]/g, 'x').replace(/-/g,'y');
 }
 
 export default DropZone;

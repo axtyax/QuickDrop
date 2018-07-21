@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "concurrently \"nodemon app.js\" \"npm run client\" ",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"nodemon app.js\" \"npm run client\" "
