@@ -132,7 +132,7 @@ class DropZone extends Component {
 	  		console.log(file_arr); //this is an ArrayBuffer
 			var i = 0;
 			while (instance.sendFileShard(file,file_arr,i)) {
-				//console.log("DONE!");
+				console.log("sent shard");
 				i++;
 			}
 
