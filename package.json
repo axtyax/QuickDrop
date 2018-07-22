@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"nodemon app.js\" \" npm run client\"n",
-    "server": "node app.js",
+    "start": "concurrently \"nodemon app.js\" \" npm run client\"",
+    "server": "concurrently \"nodemon app.js\" \" npm run client\"s",
     "client": "concurrently \"PORT=5000 npm start --prefix client\" \"nodemon app.js\" ",
     "dev": "concurrently \"nodemon app.js\" \" PORT=5000 npm run client\" "
   },
