@@ -5,7 +5,7 @@
   "scripts": {
     "start": "concurrently \"nodemon app.js\" \" npm run client\"",
     "server": "concurrently \"PORT=3000 nodemon app.js\" \"npm run client\"",
-    "client": "PORT=3001 npm start --prefix client",
+    "client": "npm start --prefix client",
     "dev": "concurrently \"nodemon app.js\" \" PORT=5000 npm run client\" "
   },
   "dependencies": {
