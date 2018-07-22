@@ -65,8 +65,8 @@ function upload_index(req, res) {
 
   fileStore.saveShard(req.params.UploadIndex,req.body.file_id,req.body.data,req.params.UploadIndex);
 
-  res.write(JSON.stringify( { "response": req.params.UploadIndex } ));
-  //res.sendStatus(200);
+  //res.write(JSON.stringify( { "response": req.params.UploadIndex } ));
+  res.sendStatus(200);
 }
 
 module.exports = router, fileStore;
