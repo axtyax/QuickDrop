@@ -4,15 +4,16 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"nodemon app.js\" \" npm run client\"",
-    "server": "concurrently \"PORT=3000 nodemon app.js\" \"npm run client\"",
+    "server": "concurrently \"nodemon app.js\" \"npm run client\"",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"nodemon app.js\" \" PORT=5000 npm run client\" "
+    "dev": "concurrently \"node app.js\" \"npm run client\" "
   },
   "dependencies": {
     "concurrently": "^3.6.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "fs": "0.0.1-security",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",

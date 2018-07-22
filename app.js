@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var debug = require('debug')('quickdrop:server');
 var http = require('http');
+var fs = require('fs');
 
 var indexRouter = require('./routes/index');
 var uploadRouter = require('./routes/upload');
@@ -17,8 +18,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//var port = normalizePort(process.env.PORT || '5000');
-app.set('port', 3000);
 
 app.use(logger('dev'));
 /*app.use(express.json());
@@ -51,4 +50,18 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port 3000!'))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+});
+
+var SERVER_PORT = parseInt(process.env.PORT || 3000) + 1;
+
+const file = './client/package.json';
+let pkg = JSON.parse(fs.readFileSync(file).toString());
+let npkg = `http://${process.env.HOST}:${SERVER_PORT}`;
+if (pkg.proxy != npkg) {
+  pkg.proxy = npkg;
+  fs.writeFileSync(file, JSON.stringify(pkg));
+}
+
+app.listen(SERVER_PORT, () => console.log(`Example app listening on port ${SERVER_PORT}!`))
