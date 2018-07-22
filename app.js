@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //var port = normalizePort(process.env.PORT || '5000');
-app.set('port', 5001);
+app.set('port', 3000);
 
 app.use(logger('dev'));
 /*app.use(express.json());
@@ -51,4 +51,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(process.env.PORT || 5001, () => console.log('Example app listening on port 5001!'))
+app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port 3000!'))
