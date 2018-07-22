@@ -51,7 +51,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
 });
 
 var SERVER_PORT = parseInt(process.env.PORT || 3000);
