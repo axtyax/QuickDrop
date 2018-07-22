@@ -4,7 +4,8 @@ var path = require("path");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+	console.log("GETTING from HGERE");
+	res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
 });
 
 module.exports = router;

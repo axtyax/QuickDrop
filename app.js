@@ -15,7 +15,7 @@ var downloadRouter = require('./routes/download');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
@@ -23,6 +23,7 @@ app.use(logger('dev'));
 /*app.use(express.json());
 app.use(express.urlencoded({ extended: false }));*/
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 var bodyParser = require('body-parser')
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser({limit: '10mb'}));
 app.use(bodyParser.json())
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
 app.use('/download', downloadRouter);
 
@@ -46,13 +47,14 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 500);  
   res.render('error');
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/public/index.html'));
-});
+/*app.get('/*', (req, res) => {
+  console.log("GETTING HERE");
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});*/
 
 var SERVER_PORT = parseInt(process.env.PORT || 3000);
 
