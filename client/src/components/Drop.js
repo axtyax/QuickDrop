@@ -72,10 +72,10 @@ class DropZone extends Component {
 
 	sendFileShard(file,file_arr,index) {
 
-		while(this.state.sending == true) {
+		/*while(this.state.sending == true) {
 			//set timeout here
 			console.log('sending');
-		}
+		}*/
 
 		this.setState({ sending: true });
 		this.setState({ at_final_shard: false });
