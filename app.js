@@ -24,7 +24,7 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));*/
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -51,10 +51,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/*app.get('/*', (req, res) => {
+app.get('/*', (req, res) => {
   console.log("GETTING HERE");
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});*/
+});
 
 var SERVER_PORT = parseInt(process.env.PORT || 3000);
 
