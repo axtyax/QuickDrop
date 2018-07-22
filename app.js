@@ -54,14 +54,19 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/public/index.html'));
 });
 
-var SERVER_PORT = parseInt(process.env.PORT || 3000) + 1;
+var SERVER_PORT = parseInt(process.env.PORT || 3000);
 
 const file = './client/package.json';
 let pkg = JSON.parse(fs.readFileSync(file).toString());
 let npkg = `http://${process.env.HOST}:${SERVER_PORT}`;
+let nstart = `PORT=${SERVER_PORT+1} react-scripts start`;
 if (pkg.proxy != npkg) {
   pkg.proxy = npkg;
   fs.writeFileSync(file, JSON.stringify(pkg));
+}
+if (pkg.scripts.start != nstart) {
+  pkg.scripts.start = nstart;
+  fs.writeFileSync(file, JSON.stringify(pkg)); 
 }
 
 app.listen(SERVER_PORT, () => console.log(`Example app listening on port ${SERVER_PORT}!`))
