@@ -22,6 +22,7 @@ class DropZone extends Component {
 		  	UploadId: cuuid(),
 		  	//files: [ {"id": uuid(),"name": "file1", "size": 20}, {"id": uuid(),"name": "file2", "size": 15023000000} ]
 				uploading: false,
+				sending: false,
 				current_shard: 0,
 				files: []
 			}
@@ -71,6 +72,12 @@ class DropZone extends Component {
 
 	sendFileShard(file,file_arr,index) {
 
+		while(this.state.sending) {
+			//set timeout here
+			//console.log('sending');
+		}
+
+		this.setState({ sending: true });
 		this.setState({ at_final_shard: false });
 
 		var SHARD_SIZE = 2500000;
@@ -108,12 +115,13 @@ class DropZone extends Component {
 				"Content-Type": "application/json"
 			}
 		}).then(function(response) {
+			this.setState({ sending: false })
 			this.checkStatus(response);
 		}.bind(this));
 
 	}
 
-	sendFileObj(file) {
+	async sendFileObj(file) {
 
 
 		var reader = new FileReader();
@@ -121,11 +129,14 @@ class DropZone extends Component {
 		reader.onload = function () {
 
 			var file_arr = new Int8Array(reader.result);
-	  	console.log(file_arr); //this is an ArrayBuffer
+	  		console.log(file_arr); //this is an ArrayBuffer
 			var i = 0;
-			while (instance.sendFileShard(file,file_arr,i)) {i++;}
+			while (instance.sendFileShard(file,file_arr,i)) {
+				//console.log("DONE!");
+				i++;
+			}
 
-	  }.bind(this,file);
+	  	}.bind(this,file);
 		//console.log("type " + typeof reader.readAsArrayBuffer(file));
 
 		return reader.readAsArrayBuffer(file.object);
