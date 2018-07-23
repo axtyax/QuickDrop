@@ -55,7 +55,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.get('/*', (req, res) => {
-  console.log("GETTING HERE");
+//  console.log("GETTING HERE");
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 

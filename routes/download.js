@@ -19,6 +19,7 @@ function getFileData(file_ID) {
 
 router.get('/:UploadId',function() {
   console.log("DOWNLOAD REQUEST");
+  res.sendFile(path.join(__dirname+'/../client/build/index.html'));
 });
 
 router.post('/:UploadId', download);
