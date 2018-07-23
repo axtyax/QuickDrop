@@ -20,6 +20,8 @@ function getFileData(file_ID) {
 router.post('/:UploadId', download);
 function download(req, res) {
 
+  console.log("DOWNLOAD REQUEST");
+
   if (!fileStore.exists(`${req.params.UploadId}`)) {
     console.log("FILE DOES NOT EXIST!");
     res.write(JSON.stringify({"msg": "FILE_DOES_NOT_EXIST"}));
@@ -34,7 +36,7 @@ function download(req, res) {
   for (var i = 0; i < file_ids.length; i++) {
     download_obj.push( { "data": getFileData(file_ids[i]), "filename": fileStore.getFilename(file_ids[i]) } );
   }
-
+-
   res.write(JSON.stringify( { download_obj } ));
 
   //res.setHeader('Content-Length', file_data.length);
