@@ -6,6 +6,8 @@ var logger = require('morgan');
 var debug = require('debug')('quickdrop:server');
 var http = require('http');
 var fs = require('fs');
+var forceSsl = require('force-ssl-heroku');
+
 
 var indexRouter = require('./routes/index');
 var uploadRouter = require('./routes/upload');
@@ -20,6 +22,7 @@ app.set('view engine', 'jade');
 
 
 app.use(logger('dev'));
+app.use(forceSsl);
 /*app.use(express.json());
 app.use(express.urlencoded({ extended: false }));*/
 app.use(cookieParser());
