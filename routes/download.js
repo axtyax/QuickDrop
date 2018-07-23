@@ -17,10 +17,12 @@ function getFileData(file_ID) {
   return file_data;
 }
 
+router.get('/:UploadId',function() {
+  console.log("DOWNLOAD REQUEST");
+});
+
 router.post('/:UploadId', download);
 function download(req, res) {
-
-  console.log("DOWNLOAD REQUEST");
 
   if (!fileStore.exists(`${req.params.UploadId}`)) {
     console.log("FILE DOES NOT EXIST!");
