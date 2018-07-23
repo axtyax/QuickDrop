@@ -17,7 +17,7 @@ function getFileData(file_ID) {
   return file_data;
 }
 
-router.get('/:UploadId',function(req,res) {
+router.get('/:UploadId',function(req, res) {
   console.log("DOWNLOAD REQUEST");
   res.sendFile(path.join(__dirname+'/../client/build/index.html'));
 });
