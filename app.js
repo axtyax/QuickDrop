@@ -63,7 +63,7 @@ var SERVER_PORT = parseInt(process.env.PORT || 3000);
 
 const file = './client/package.json';
 let pkg = JSON.parse(fs.readFileSync(file).toString());
-let npkg = `http://${process.env.HOST}:${SERVER_PORT}`;
+let npkg = `${process.env.HOST}:${SERVER_PORT}`;
 let nstart = `PORT=${SERVER_PORT+1} react-scripts start`;
 if (pkg.proxy != npkg) {
   pkg.proxy = npkg;
