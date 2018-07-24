@@ -60,10 +60,11 @@ exports.getFilename = function(file_ID) {
   return name_to_id[file_ID];
 }
 
+var lifetime_seconds = 60;
 exports.startFileLife = function(fileID) {
   //destroy file in one minute
   //console.log(file_manifest);
-  var e = "file_manifest." + fileID + ".death = " + new Date().getTime()/1000 + 60;
+  var e = "file_manifest." + fileID + ".death = " + new Date().getTime()/1000 + lifetime_seconds;
   //console.log(e);
   eval(e);
   //console.log("file lifed");
@@ -75,7 +76,6 @@ exports.saveShard = function (shard_ID,file_ID,shard_dat,shard_index) {
   //console.log(file_manifest);
 }
 
-var lifetime_seconds = 1800;
 updateManifest = function() {
   for (var f in file_manifest) {
     //console.log("file death at " + file_manifest[f].death + " now " + (new Date().getTime()/1000));
@@ -83,14 +83,23 @@ updateManifest = function() {
       //console.log("destroying file");
       delete file_manifest[f];
 
+      for (var i in file_instances) {
+        var index = file_instances[i].indexOf(f);
+        console.log(file_instances[i]);
+        console.log(f);
+        console.log(`deleting ${index}`);
+        if (index != -1)
+        file_instances[i].splice(i.indexOf(f),1);
+      }
+
       //sconsole.log(file_manifest)
     }
   }
 }
 
-//update manifest every 5 minutes
+//update manifest every x minutes
 var minutes = 0.5, the_interval = minutes * 60 * 1000;
 setInterval(function() {
-  console.log("UPDATING MANIFEST");
+  //console.log("UPDATING MANIFEST");
   updateManifest();
 }, the_interval);

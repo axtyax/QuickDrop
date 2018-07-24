@@ -47,6 +47,10 @@ class DropZone extends Component {
 	}
 
 	addFile(fileObj) {
+		for (var f in this.state.files) {
+			if (this.state.files[f].name == fileObj.name) return 0;
+		}
+
 		this.state.files.push({ 
 			"id": cuuid(), 
 			"name": fileObj.name, 
@@ -122,8 +126,8 @@ class DropZone extends Component {
 
 		var p_left = `${(SHARD_SIZE*index*100.0/(file_arr.length))}%`;
 		console.log(p_left);
-		console.log(`last ${is_last}`);
-		console.log(`fut-${file_index}`);
+		//console.log(`last ${is_last}`);
+		//console.log(`fut-${file_index}`);
 
 		
 		this.updateTracker(is_last,p_left,file_index);
@@ -183,14 +187,36 @@ class DropZone extends Component {
 			s += this.state.files[i].size;
 		}
 
+
+		var updateTracker = setInterval(function() {
+
+			var good = true;
+			for (var i = 0; i < this.state.files.length; i++) {
+				if (this.state.files[i].uploadTracker != 'Uploaded') {
+					good = false;
+				}
+				else {
+					var elem = `fut-${this.state.files[i].id}`;
+					document.getElementById(elem).innerHTML = this.state.files[i].uploadTracker;
+					document.getElementById(elem).color = "green";
+				}	
+			}
+
+			if (good) {
+				document.getElementById('link-box-text').innerHTML = `${window.location.href}download/${this.state.UploadId}`;
+				document.getElementById('link-box-text').href = `${window.location.href}download/${this.state.UploadId}`;
+				clearInterval(updateTracker);
+			}
+
+
+		}.bind(this), 200);
+
 		if (s <= 25000000) {
 			for(var i = 0; i < this.state.files.length; i++) {
 				if (this.state.files[i].uploadTracker != 'Uploaded')
 					this.sendFileObj(this.state.files[i],i);
 			}
-
-			document.getElementById('link-box-text').innerHTML = `${window.location.href}download/${this.state.UploadId}`;
-			document.getElementById('link-box-text').href = `${window.location.href}download/${this.state.UploadId}`;
+		
 		}
 
 		else {

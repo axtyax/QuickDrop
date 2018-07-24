@@ -54,20 +54,33 @@ class Download extends Component {
 	}
 
 	handleResponse(response) {
-		response.json().then( (body) => {
-			if (body.msg == "FILE_DOES_NOT_EXIST") {
-				var error = new Error(response.statusText)
-				console.log("File does not exist");
-				//throw 'error while downloading files'
-			}
-			else {
-				console.log(body.download_obj)
-				for (var i = 0; i < body.download_obj.length; i++) {
-					this.setState({ last_response: body.download_obj[i].data })
-					this.downloadFile(body.download_obj[i].data,body.download_obj[i].filename);
+		if (response.status >= 200 && response.status < 300) {
+			response.json().then( (body) => {
+				if (body.ok == "ok") {
+					if (body.msg == "FILE_DOES_NOT_EXIST") {
+						var error = new Error(response.statusText)
+						console.log("File does not exist");
+						//throw 'error while downloading files'
+					}
+					else if (body.msg == "FILE_EXPIRED") {
+						console.log("This file has expired");
+					}
+					else {
+						console.log(body.download_obj)
+						for (var i = 0; i < body.download_obj.length; i++) {
+							this.setState({ last_response: body.download_obj[i].data })
+							this.downloadFile(body.download_obj[i].data,body.download_obj[i].filename);
+						}
+					}
 				}
-			}
-		} );
+				else {
+					console.log("Something went wrong");
+				}
+			} );
+		}
+		else {
+			console.log("SERVER ERROR!");
+		}
 	}
 
 

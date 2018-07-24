@@ -28,7 +28,7 @@ function download(req, res) {
 
   if (!fileStore.exists(`${req.params.UploadId}`)) {
     console.log("FILE DOES NOT EXIST!");
-    res.write(JSON.stringify({"msg": "FILE_DOES_NOT_EXIST"}));
+    res.write(JSON.stringify({"msg": "FILE_DOES_NOT_EXIST", "ok": "ok"}));
     res.end();
     return
   }
@@ -36,12 +36,22 @@ function download(req, res) {
   var file_ids = fileStore.getFilesInInstance(`${req.params.UploadId}`);
   var download_obj = [];
 
-  console.log("NUM FILES: " + file_ids.length);
+  //console.log("NUM FILES: " + file_ids.length);
+  
   for (var i = 0; i < file_ids.length; i++) {
-    download_obj.push( { "data": getFileData(file_ids[i]), "filename": fileStore.getFilename(file_ids[i]) } );
+  
+    var f_dat = getFileData(file_ids[i]);
+    if (f_dat.length < 1) {
+      res.write(JSON.stringify({"msg": "FILES_EXPIRED", "ok": "ok"}));
+      res.end();
+      return
+    }
+  
+    download_obj.push( { "data": f_dat, "filename": fileStore.getFilename(file_ids[i]) } );
   }
 -
-  res.write(JSON.stringify( { download_obj, "msg":"download" } ));
+  console.log("er");
+  res.write(JSON.stringify( { download_obj, "msg":"download" , "ok": "ok"} ));
 
   //res.setHeader('Content-Length', file_data.length);
   //res.write(file_data, 'binary');
