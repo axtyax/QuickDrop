@@ -77,7 +77,7 @@ class DropZone extends Component {
 		e.preventDefault();
 	}
 
-	async updateTracker(is_last,p_left,id) {
+	updateTracker = (is_last,p_left,id) => {
 		if (is_last == 0) {
 			this.state.files[id].uploadTracker = p_left;
 			this.setState({ files: this.state.files });
@@ -88,7 +88,7 @@ class DropZone extends Component {
 		}
 	}
 
-	sendFileShard(file,file_arr,index) {
+	sendFileShard(file,file_index,file_arr,index) {
 
 		/*while(this.state.sending == true) {
 			//set timeout here
@@ -123,9 +123,10 @@ class DropZone extends Component {
 		var p_left = `${(SHARD_SIZE*index*100.0/(file_arr.length))}%`;
 		console.log(p_left);
 		console.log(`last ${is_last}`);
-		console.log(`fut-${file.id}`);
+		console.log(`fut-${file_index}`);
 
-		this.updateTracker(is_last,p_left,file.id);
+		
+		this.updateTracker(is_last,p_left,file_index);
 
 		return fetch(`/upload/${this.state.UploadId}/${index}`, {
 			method: 'post',
@@ -146,7 +147,7 @@ class DropZone extends Component {
 
 	}
 
-	async sendFileObj(file) {
+	async sendFileObj(file,f_index) {
 
 
 		var reader = new FileReader();
@@ -156,7 +157,7 @@ class DropZone extends Component {
 			var file_arr = new Int8Array(reader.result);
 	  		console.log(file_arr); //this is an ArrayBuffer
 			var i = 0;
-			while (instance.sendFileShard(file,file_arr,i)) {
+			while (instance.sendFileShard(file,f_index,file_arr,i)) {
 				console.log("sent shard");
 				i++;
 			}
@@ -177,12 +178,24 @@ class DropZone extends Component {
 
 	uploadFiles() {
 
+		var s = 0;
 		for(var i = 0; i < this.state.files.length; i++) {
-			this.sendFileObj(this.state.files[i]);
+			s += this.state.files[i].size;
 		}
 
-		document.getElementById('link-box-text').innerHTML = `${window.location.href}download/${this.state.UploadId}`;
-		document.getElementById('link-box-text').href = `${window.location.href}download/${this.state.UploadId}`;
+		if (s <= 25000000) {
+			for(var i = 0; i < this.state.files.length; i++) {
+				if (this.state.files[i].uploadTracker != 'Uploaded')
+					this.sendFileObj(this.state.files[i],i);
+			}
+
+			document.getElementById('link-box-text').innerHTML = `${window.location.href}download/${this.state.UploadId}`;
+			document.getElementById('link-box-text').href = `${window.location.href}download/${this.state.UploadId}`;
+		}
+
+		else {
+			document.getElementById('upload-warning').innerHTML = "Please limit uploads to 25mb";
+		}
 
 	}
 
@@ -209,6 +222,8 @@ class DropZone extends Component {
 					</ul>
 
 					<button type="button" id="upload-button" onClick={this.uploadFiles}> Upload! </button>
+
+					<p id="upload-warning"> </p>
 
 					<div id="link-box"> Download Link: <a id='link-box-text' ref='link-box-text' target="_blank" href=""></a> </div>
 

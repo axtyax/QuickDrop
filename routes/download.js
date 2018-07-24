@@ -41,7 +41,7 @@ function download(req, res) {
     download_obj.push( { "data": getFileData(file_ids[i]), "filename": fileStore.getFilename(file_ids[i]) } );
   }
 -
-  res.write(JSON.stringify( { download_obj } ));
+  res.write(JSON.stringify( { download_obj, "msg":"download" } ));
 
   //res.setHeader('Content-Length', file_data.length);
   //res.write(file_data, 'binary');

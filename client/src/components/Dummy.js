@@ -7,7 +7,7 @@ class Dummy extends Component {
 
 			<div className="Main">
 
-                dummy
+                <embed src="sitemap.xml" />
 
 			</div>
 

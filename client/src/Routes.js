@@ -16,7 +16,7 @@ class Routes extends Component {
         <div>
           <Route exact path="/" component={App}/>
           <Route exact path="/download/:instanceID" component={Download}/>
-          <Route exact path="/wakemydyno.txt" component={Dummy}/>
+          <Route exact path="/sitemap.xml" component={Dummy}/>
         </div>
       </Router>
     );

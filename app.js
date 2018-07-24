@@ -65,7 +65,11 @@ const file = './client/package.json';
 let pkg = JSON.parse(fs.readFileSync(file).toString());
 let npkg = `http://${process.env.HOST}:${SERVER_PORT}`;
 let nstart = `PORT=${SERVER_PORT+1} react-scripts start`;
-if (pkg.proxy != npkg) {
+if (pkg.proxy == `http://undefined:${SERVER_PORT}`) {
+  pkg.proxy = `http://localhost:${SERVER_PORT}`;
+  fs.writeFileSync(file, JSON.stringify(pkg)); 
+}
+else if (pkg.proxy != npkg && pkg.proxy != `http://localhost:${SERVER_PORT}`) {
   pkg.proxy = npkg;
   fs.writeFileSync(file, JSON.stringify(pkg));
 }
