@@ -29,15 +29,24 @@
 }
 
 #file-list li .file-name {
-	width: 80%;
+	width: 55%;
 	font-size: 2rem;
 	text-align: left;
 }
 
 #file-list li .file-size {
+	margin-top: 0.6rem;
 	font-size: 1.5rem;
 	color: blue;
-	width: 10%;
+	width: 14%;
+	text-align: left;
+}
+
+#file-list li .file-upload-tracker {
+	margin-top: 0.8rem;
+	color: red;
+	font-style: italic;
+	width: 22%;
 	text-align: right;
 }
 

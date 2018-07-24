@@ -6,6 +6,7 @@ import {
 
 import App from './components/App.js';
 import Download from './components/Download.js';
+import Dummy from './components/Dummy.js'
 
 class Routes extends Component {
 
@@ -15,6 +16,7 @@ class Routes extends Component {
         <div>
           <Route exact path="/" component={App}/>
           <Route exact path="/download/:instanceID" component={Download}/>
+          <Route exact path="/wakemydyno.txt" component={Dummy}/>
         </div>
       </Router>
     );

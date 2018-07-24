@@ -47,7 +47,13 @@ class DropZone extends Component {
 	}
 
 	addFile(fileObj) {
-		this.state.files.push({ "id": cuuid(), "name": fileObj.name, "size": fileObj.size, "object": fileObj })
+		this.state.files.push({ 
+			"id": cuuid(), 
+			"name": fileObj.name, 
+			"size": fileObj.size, 
+			"object": fileObj,
+			"uploadTracker": 'Not Uploaded'
+		})
 		this.setState ({ files: this.state.files });
 	}
 
@@ -56,11 +62,12 @@ class DropZone extends Component {
 			(f) =>
 					<li key={f.name}>
 					<span class="file-name"> {f.name} </span>
-					<span class="file-size"> {f.size} </span>
+					<span class="file-size"> {f.size}B </span>
+					<span class="file-upload-tracker" id={`fut-${f.id}`}> {f.uploadTracker} </span>
 					<button type="button" onClick={() => this.removeFile(f.id)}> X </button>
 					</li> );
 		return file_list;
-	}
+	}	
 
 	fileDragover = (e) => {
 	  	e.preventDefault();
@@ -68,6 +75,17 @@ class DropZone extends Component {
 
 	fileDrop = (e) => {
 		e.preventDefault();
+	}
+
+	async updateTracker(is_last,p_left,id) {
+		if (is_last == 0) {
+			this.state.files[id].uploadTracker = p_left;
+			this.setState({ files: this.state.files });
+		}
+		else {
+			this.state.files[id].uploadTracker = 'Uploaded';
+			this.setState({ files: this.state.files });
+		}
 	}
 
 	sendFileShard(file,file_arr,index) {
@@ -101,6 +119,13 @@ class DropZone extends Component {
 
 		if (index == 0) is_first = 1;
 		if (arr_end == file_arr.length) is_last = 1;
+
+		var p_left = `${(SHARD_SIZE*index*100.0/(file_arr.length))}%`;
+		console.log(p_left);
+		console.log(`last ${is_last}`);
+		console.log(`fut-${file.id}`);
+
+		this.updateTracker(is_last,p_left,file.id);
 
 		return fetch(`/upload/${this.state.UploadId}/${index}`, {
 			method: 'post',

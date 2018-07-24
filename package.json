@@ -6,7 +6,8 @@
     "start": "nodemon app.js",
     "server": "concurrently \"nodemon app.js\" \"npm run client\"",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"node app.js\" \"npm run client\" ",
+    "static": "npm run heroku-postbuild; nodemon app.js; ",
+    "dev": "concurrently \"nodemon app.js\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
