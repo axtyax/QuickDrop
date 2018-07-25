@@ -3,6 +3,25 @@
 	font-family: 'Libre Franklin', sans-serif;
 }
 
+#mysite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #3884ff;
+  color: white;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+#mysite:hover {
+  background-color: #11346d;
+}
+
 #main-title {
 	margin-top: 3.0rem;
 	color: #3884ff;

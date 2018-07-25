@@ -12,6 +12,8 @@ class App extends Component {
 
 				<link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet" />
 
+				<a href="http://dariusbarbano.com" id="mysite">My Site</a>
+
 				<h1 id="main-title"> QuickDrop </h1>
 				<p class="caption"> Easy-to-use temporary file storage </p>
 
