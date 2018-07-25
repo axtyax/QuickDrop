@@ -18,8 +18,8 @@ class App extends Component {
 				<DropZone />
 
 				<h1 class="bottom-caption">
-					QuickDrop stores up to 50mb of files for 12 hours. To retrieve a uploaded files, just hit 'Upload'
-					and copy the paste the returned link into your browser. 
+					QuickDrop stores up to 50mb of files for 12 hours. To retrieve files after uploading, 
+					just paste the given link into your browser. 
 				</h1>
 
 			</div>
