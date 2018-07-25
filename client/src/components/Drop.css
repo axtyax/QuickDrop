@@ -4,8 +4,9 @@
 	margin: auto;
 	width: 66rem;
 	height: 36rem;
-	border-radius: 0.2rem;
+	border-radius: 0.0rem;
 	border: #3884ff 2px solid;
+	background-color: #e6efff;
 	display: inline-block;
 	overflow: scroll;
 }
@@ -22,7 +23,7 @@
 #file-list li {
 	margin-top: 0.1rem;
 	border: black 1px solid;
-	border-radius: 0.5rem;
+	border-radius: 0.0rem;
 	background-color: #ebf2ff;
 	padding: 1rem;
 	display: flex;

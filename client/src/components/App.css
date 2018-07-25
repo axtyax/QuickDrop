@@ -4,16 +4,25 @@
 }
 
 #main-title {
-	margin-top: 5rem;
+	margin-top: 3.0rem;
 	color: #3884ff;
 	font-size: 8rem;
 }
 
-#title-caption {
+.caption {
 	margin-top: -4rem;
 	color: #11346d;
 	font-style: italic;
 	font-size: 1.3rem;
+}
+
+.bottom-caption {
+  width: 60%;
+  margin: auto;
+  margin-top: 1rem;
+	color: #11346d;
+	font-style: italic;
+  font-size: 1.3rem;
 }
 
 .App-logo {
